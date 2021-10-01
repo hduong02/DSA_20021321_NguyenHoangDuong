@@ -34,3 +34,4 @@ public class BinarySearch {
         System.out.println(binarySearch(arr, number));
     }
 }
+//abcdxyz
