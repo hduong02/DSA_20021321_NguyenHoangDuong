@@ -14,9 +14,9 @@ public class ClosestNumbers {
         Arrays.sort(arr);
         int minDiff = 2147483647;
         String pairs = "";
-        for(int i = 0; i < n - 1; i++) {
-            if(arr[i + 1] - arr[i] <= minDiff) {
-                if(arr[i + 1] - arr[i] == minDiff) {
+        for (int i = 0; i < n - 1; i++) {
+            if (arr[i + 1] - arr[i] <= minDiff) {
+                if (arr[i + 1] - arr[i] == minDiff) {
                     pairs += " " + arr[i] + " " + arr[i + 1];
                 } else {
                     pairs = arr[i] + " " + arr[i + 1];
