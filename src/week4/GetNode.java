@@ -77,56 +77,20 @@ public class GetNode {
             // Write your code here
             if (llist == null) return -1;
 
-            int counter = 0, forward = 0;
+            int count1 = 0, count2 = 0;
             SinglyLinkedListNode temp = llist;
             SinglyLinkedListNode node = llist;
 
             while (temp.next != null) {
-                forward++;
+                count2++;
                 temp = temp.next;
-                if (forward - counter > positionFromTail) {
+                if (count2 - positionFromTail > count1) {
                     node = node.next;
-                    counter++;
+                    count1++;
                 }
             }
-
             return node.data;
         }
 
-    }
-
-    private static final Scanner scanner = new Scanner(System.in);
-
-    public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
-
-        int tests = scanner.nextInt();
-        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-
-        for (int testsItr = 0; testsItr < tests; testsItr++) {
-            SinglyLinkedList llist = new SinglyLinkedList();
-
-            int llistCount = scanner.nextInt();
-            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-
-            for (int i = 0; i < llistCount; i++) {
-                int llistItem = scanner.nextInt();
-                scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-
-                llist.insertNode(llistItem);
-            }
-
-            int position = scanner.nextInt();
-            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-
-            int result = getNode(llist.head, position);
-
-            bufferedWriter.write(String.valueOf(result));
-            bufferedWriter.newLine();
-        }
-
-        bufferedWriter.close();
-
-        scanner.close();
     }
 }
