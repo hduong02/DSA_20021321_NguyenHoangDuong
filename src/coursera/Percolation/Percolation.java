@@ -4,12 +4,12 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
 
-    private static final int top = 0;
-    private final boolean[][] opened;
-    private final int size;
-    private final int bottom;
+    private static int top = 0;
+    private int bottom;
+    private boolean[][] opened;
+    private int size;
     private int openSites;
-    private final WeightedQuickUnionUF qf;
+    private WeightedQuickUnionUF union;
 
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {
@@ -18,7 +18,7 @@ public class Percolation {
         }
         size = n;
         bottom = size * size + 1;
-        qf = new WeightedQuickUnionUF(size * size + 2);
+        union = new WeightedQuickUnionUF(size * size + 2);
         opened = new boolean[size][size];
         openSites = 0;
     }
@@ -30,27 +30,27 @@ public class Percolation {
         openSites++;
 
         if (row == 1) {
-            qf.union(qfIndex(row, col), top);
+            union.union(qfIndex(row, col), top);
         }
 
         if (row == size) {
-            qf.union(qfIndex(row, col), bottom);
+            union.union(qfIndex(row, col), bottom);
         }
 
         if (row > 1 && isOpen(row - 1, col)) {
-            qf.union(qfIndex(row, col), qfIndex(row - 1, col));
+            union.union(qfIndex(row, col), qfIndex(row - 1, col));
         }
 
         if (row < size && isOpen(row + 1, col)) {
-            qf.union(qfIndex(row, col), qfIndex(row + 1, col));
+            union.union(qfIndex(row, col), qfIndex(row + 1, col));
         }
 
         if (col > 1 && isOpen(row, col - 1)) {
-            qf.union(qfIndex(row, col), qfIndex(row, col - 1));
+            union.union(qfIndex(row, col), qfIndex(row, col - 1));
         }
 
         if (col < size && isOpen(row, col + 1)) {
-            qf.union(qfIndex(row, col), qfIndex(row, col + 1));
+            union.union(qfIndex(row, col), qfIndex(row, col + 1));
         }
     }
 
@@ -74,7 +74,7 @@ public class Percolation {
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
         if ((row > 0 && row <= size) && (col > 0 && col <= size)) {
-            return qf.find(top) == qf.find(qfIndex(row, col));
+            return union.find(top) == union.find(qfIndex(row, col));
         }
         else throw new IllegalArgumentException();
     }
@@ -86,7 +86,7 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return qf.find(top) == qf.find(bottom);
+        return union.find(top) == union.find(bottom);
     }
 
     public static void main(String[] args) {

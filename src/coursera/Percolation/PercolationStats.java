@@ -6,17 +6,17 @@ import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
 
-    private final int experimentsCount;
-    private final double[] fractions;
+    private int count;
+    private double[] fractions;
 
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int t) {
         if (n <= 0 || t <= 0) {
             throw new IllegalArgumentException();
         }
-        experimentsCount = t;
-        fractions = new double[experimentsCount];
-        for (int i = 0; i < experimentsCount; i++) {
+        count = t;
+        fractions = new double[count];
+        for (int i = 0; i < count; i++) {
             Percolation p = new Percolation(n);
             int openSites = 0;
             while (!p.percolates()) {
@@ -44,12 +44,12 @@ public class PercolationStats {
 
     /// low endpoint of 95% confidence interval
     public double confidenceLo() {
-        return mean() - ((1.96 * stddev()) / Math.sqrt(experimentsCount));
+        return mean() - ((1.96 * stddev()) / Math.sqrt(count));
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
-        return mean() + ((1.96 * stddev()) / Math.sqrt(experimentsCount));
+        return mean() + ((1.96 * stddev()) / Math.sqrt(count));
     }
 
     // test client (see below)
