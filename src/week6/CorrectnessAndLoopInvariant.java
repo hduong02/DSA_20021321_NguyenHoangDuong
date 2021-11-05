@@ -5,8 +5,7 @@ import java.util.Scanner;
 public class CorrectnessAndLoopInvariant {
 
     public static void insertionSort(int[] A){
-        int i, j;
-        int value;
+        int i, j, value;
         for (i = 1; i < A.length; i++)
         {
             value = A[i];

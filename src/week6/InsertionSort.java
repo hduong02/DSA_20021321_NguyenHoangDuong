@@ -83,9 +83,9 @@ public class InsertionSort {
      * @param args the command-line arguments
      */
     public static void main(String[] args) {
-        int[] a = new int[500000];
+        int[] a = new int[1000000];
         for (int i = 0; i < a.length; i++) {
-            a[i] = StdRandom.uniform(10000);
+            a[i] = 712;
         }
         long start = System.currentTimeMillis();
         InsertionSort.sort(a);

@@ -196,7 +196,7 @@ public class MergeSort {
     public static void main(String[] args) {
         int[] a = new int[1000000];
         for (int i = 0; i < a.length; i++) {
-            a[i] = StdRandom.uniform(10000);
+            a[i] = i;
         }
         long start = System.currentTimeMillis();
         MergeSort.sort(a);

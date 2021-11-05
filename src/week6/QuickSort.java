@@ -84,9 +84,9 @@ public class QuickSort {
      * @param args the command-line arguments
      */
     public static void main(String[] args) {
-        int[] a = new int[1000000];
+        int[] a = new int[10000];
         for (int i = 0; i < a.length; i++) {
-            a[i] = StdRandom.uniform(10000);
+            a[i] = i;
         }
         long start = System.currentTimeMillis();
         QuickSort.sort(a);
