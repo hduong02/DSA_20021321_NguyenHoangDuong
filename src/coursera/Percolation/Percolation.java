@@ -30,27 +30,27 @@ public class Percolation {
         openSites++;
 
         if (row == 1) {
-            union.union(qfIndex(row, col), top);
+            union.union(index(row, col), top);
         }
 
         if (row == size) {
-            union.union(qfIndex(row, col), bottom);
+            union.union(index(row, col), bottom);
         }
 
         if (row > 1 && isOpen(row - 1, col)) {
-            union.union(qfIndex(row, col), qfIndex(row - 1, col));
+            union.union(index(row, col), index(row - 1, col));
         }
 
         if (row < size && isOpen(row + 1, col)) {
-            union.union(qfIndex(row, col), qfIndex(row + 1, col));
+            union.union(index(row, col), index(row + 1, col));
         }
 
         if (col > 1 && isOpen(row, col - 1)) {
-            union.union(qfIndex(row, col), qfIndex(row, col - 1));
+            union.union(index(row, col), index(row, col - 1));
         }
 
         if (col < size && isOpen(row, col + 1)) {
-            union.union(qfIndex(row, col), qfIndex(row, col + 1));
+            union.union(index(row, col), index(row, col + 1));
         }
     }
 
@@ -74,13 +74,13 @@ public class Percolation {
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
         if ((row > 0 && row <= size) && (col > 0 && col <= size)) {
-            return union.find(top) == union.find(qfIndex(row, col));
+            return union.find(top) == union.find(index(row, col));
         }
         else throw new IllegalArgumentException();
     }
 
     //địa chỉ union find của ô
-    private int qfIndex(int row, int col) {
+    private int index(int row, int col) {
         return size * (row - 1) + col;
     }
 
@@ -91,8 +91,8 @@ public class Percolation {
 
     public static void main(String[] args) {
         Percolation a = new Percolation(4);
-        for(int i=1; i<=4; i++){
-            a.open(i,1);
+        for (int i = 1; i <= 4; i++) {
+            a.open(i, 1);
         }
         System.out.println(a.percolates());
     }
