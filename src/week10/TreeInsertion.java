@@ -1,10 +1,8 @@
-package week9;
+package week10;
 
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Scanner;
 
-public class TreeLevelOrder {
+public class TreeInsertion {
 
     static class Node {
         Node left;
@@ -17,27 +15,26 @@ public class TreeLevelOrder {
             right = null;
         }
     }
+    public static void preOrder( Node root ) {
 
-    public static void levelOrder(Node root) {
-        Queue<Node> nodes = new LinkedList<>();
-        nodes.add(root);
-        Node temp = null;
-        while (!nodes.isEmpty())
-        {
-            temp = nodes.peek();
-            nodes.remove();
-            System.out.print(temp.data + " ");
-            if (temp.left != null) {
-                nodes.add(temp.left);
-            }
-            if (temp.right != null)
-            {
-                nodes.add(temp.right);
-            }
-        }
+        if( root == null)
+            return;
+
+        System.out.print(root.data + " ");
+        preOrder(root.left);
+        preOrder(root.right);
+
     }
 
-    public static Node insert(Node root, int data) {
+ /* Node is defined as :
+ class Node
+    int data;
+    Node left;
+    Node right;
+
+    */
+
+    public static Node insert(Node root,int data) {
         if (root == null) {
             return new Node(data);
         } else {
@@ -57,11 +54,11 @@ public class TreeLevelOrder {
         Scanner scan = new Scanner(System.in);
         int t = scan.nextInt();
         Node root = null;
-        while (t-- > 0) {
+        while(t-- > 0) {
             int data = scan.nextInt();
             root = insert(root, data);
         }
         scan.close();
-        levelOrder(root);
+        preOrder(root);
     }
 }

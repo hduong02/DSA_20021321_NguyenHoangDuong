@@ -1,10 +1,8 @@
-package week9;
+package week10;
 
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Scanner;
 
-public class TreeLevelOrder {
+public class LowestCommonAncestor {
 
     static class Node {
         Node left;
@@ -18,31 +16,24 @@ public class TreeLevelOrder {
         }
     }
 
-    public static void levelOrder(Node root) {
-        Queue<Node> nodes = new LinkedList<>();
-        nodes.add(root);
-        Node temp = null;
-        while (!nodes.isEmpty())
-        {
-            temp = nodes.peek();
-            nodes.remove();
-            System.out.print(temp.data + " ");
-            if (temp.left != null) {
-                nodes.add(temp.left);
-            }
-            if (temp.right != null)
-            {
-                nodes.add(temp.right);
-            }
+    public static Node lca(Node root, int v1, int v2) {
+        // Write your code here.
+        while (root != null) {
+            if (root.data > v1 && root.data > v2) {
+                root = root.left;
+            } else if (root.data < v1 && root.data < v2) {
+                root = root.right;
+            } else break;
         }
+        return root;
     }
 
     public static Node insert(Node root, int data) {
-        if (root == null) {
+        if(root == null) {
             return new Node(data);
         } else {
             Node cur;
-            if (data <= root.data) {
+            if(data <= root.data) {
                 cur = insert(root.left, data);
                 root.left = cur;
             } else {
@@ -57,11 +48,14 @@ public class TreeLevelOrder {
         Scanner scan = new Scanner(System.in);
         int t = scan.nextInt();
         Node root = null;
-        while (t-- > 0) {
+        while(t-- > 0) {
             int data = scan.nextInt();
             root = insert(root, data);
         }
+        int v1 = scan.nextInt();
+        int v2 = scan.nextInt();
         scan.close();
-        levelOrder(root);
+        Node ans = lca(root,v1,v2);
+        System.out.println(ans.data);
     }
 }

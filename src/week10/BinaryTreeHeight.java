@@ -1,11 +1,8 @@
-package week9;
+package week10;
 
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Scanner;
 
-public class TreeLevelOrder {
-
+public class BinaryTreeHeight {
     static class Node {
         Node left;
         Node right;
@@ -18,23 +15,12 @@ public class TreeLevelOrder {
         }
     }
 
-    public static void levelOrder(Node root) {
-        Queue<Node> nodes = new LinkedList<>();
-        nodes.add(root);
-        Node temp = null;
-        while (!nodes.isEmpty())
-        {
-            temp = nodes.peek();
-            nodes.remove();
-            System.out.print(temp.data + " ");
-            if (temp.left != null) {
-                nodes.add(temp.left);
-            }
-            if (temp.right != null)
-            {
-                nodes.add(temp.right);
-            }
+    public static int height(Node root) {
+        // Write your code here.
+        if (root == null) {
+            return -1;
         }
+        return Math.max(height(root.left), height(root.right)) + 1;
     }
 
     public static Node insert(Node root, int data) {
@@ -62,6 +48,7 @@ public class TreeLevelOrder {
             root = insert(root, data);
         }
         scan.close();
-        levelOrder(root);
+        int height = height(root);
+        System.out.println(height);
     }
 }
