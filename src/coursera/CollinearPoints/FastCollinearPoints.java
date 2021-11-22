@@ -10,7 +10,6 @@ public class FastCollinearPoints {
     private Point[] points;
 
     public FastCollinearPoints(Point[] points) {
-
         if (isInvalid(points)) {
             throw new java.lang.IllegalArgumentException();
         }
@@ -21,8 +20,8 @@ public class FastCollinearPoints {
         for (Point p : this.points) {
             pointsClone = this.points.clone();
             Arrays.sort(pointsClone, p.slopeOrder());
-            int k = 2;
-            int begin = 1;
+            int segmentPoints = 2;
+            int start = 1;
             int end = 1;
             double slope1;
             double slope2 = p.slopeTo(pointsClone[1]);
@@ -31,20 +30,21 @@ public class FastCollinearPoints {
                 slope2 = p.slopeTo(pointsClone[i + 1]);
 
                 if (Double.compare(slope1, slope2)  == 0) {
-                    k++;
+                    segmentPoints++;
                     end = i + 1;
-                    if (i + 1 < pointsClone.length - 1) { continue; }
+                    if (i + 1 < pointsClone.length - 1) {
+                        continue;
+                    }
                 }
 
-                if (k >= 4) {
-                    addSegments(p, begin, end);
+                if (segmentPoints >= 4) {
+                    addSegments(p, start, end);
                 }
-                k = 2;
-                begin = i + 1;
 
+                segmentPoints = 2;
+                start = i + 1;
             }
         }
-
     }
 
     private void addSegments(Point point, int start, int end) {

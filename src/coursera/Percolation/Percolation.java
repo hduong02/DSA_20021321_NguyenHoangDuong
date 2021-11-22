@@ -18,23 +18,32 @@ public class Percolation {
         }
         size = n;
         bottom = size * size + 1;
-        union = new WeightedQuickUnionUF(size * size + 2);
         opened = new boolean[size][size];
         openSites = 0;
+        union = new WeightedQuickUnionUF(size * size + 2);
+
     }
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
-        checkException(row, col);
+        isValid(row, col);
         opened[row - 1][col - 1] = true;
         openSites++;
+
+        if (row == size) {
+            union.union(index(row, col), bottom);
+        }
 
         if (row == 1) {
             union.union(index(row, col), top);
         }
 
-        if (row == size) {
-            union.union(index(row, col), bottom);
+        if (col > 1 && isOpen(row, col - 1)) {
+            union.union(index(row, col), index(row, col - 1));
+        }
+
+        if (col < size && isOpen(row, col + 1)) {
+            union.union(index(row, col), index(row, col + 1));
         }
 
         if (row > 1 && isOpen(row - 1, col)) {
@@ -45,24 +54,17 @@ public class Percolation {
             union.union(index(row, col), index(row + 1, col));
         }
 
-        if (col > 1 && isOpen(row, col - 1)) {
-            union.union(index(row, col), index(row, col - 1));
-        }
-
-        if (col < size && isOpen(row, col + 1)) {
-            union.union(index(row, col), index(row, col + 1));
-        }
     }
 
-    private void checkException(int row, int col) {
-        if (row <= 0 || row > size || col <= 0 || col > size) {
+    private void isValid(int row, int col) {
+        if (col <= 0 || col > size || row <= 0 || row > size ) {
             throw new IllegalArgumentException();
         }
     }
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
-        checkException(row, col);
+        isValid(row, col);
         return opened[row - 1][col - 1];
     }
 
@@ -90,10 +92,6 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
-        Percolation a = new Percolation(4);
-        for (int i = 1; i <= 4; i++) {
-            a.open(i, 1);
-        }
-        System.out.println(a.percolates());
+
     }
 }

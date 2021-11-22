@@ -9,15 +9,15 @@ import java.util.Collections;
 
 public class Solver {
 
-    private static class GameTreeNode implements Comparable<GameTreeNode> {
+    private static class BoardTreeNode implements Comparable<BoardTreeNode> {
         private Board board;
-        private GameTreeNode parent;
+        private BoardTreeNode parent;
         private boolean twin;
         private int moves;
         private int distance;
         private int priority;
 
-        public GameTreeNode(Board board, boolean twin) {
+        public BoardTreeNode(Board board, boolean twin) {
             this.board = board;
             parent = null;
             this.twin = twin;
@@ -26,7 +26,7 @@ public class Solver {
             priority = distance + moves;
         }
 
-        public GameTreeNode(Board board, GameTreeNode parent) {
+        public BoardTreeNode(Board board, BoardTreeNode parent) {
             this.board = board;
             this.parent = parent;
             twin = parent.twin;
@@ -39,7 +39,7 @@ public class Solver {
             return board;
         }
 
-        public GameTreeNode getParent() {
+        public BoardTreeNode getParent() {
             return parent;
         }
 
@@ -48,7 +48,7 @@ public class Solver {
         }
 
         @Override
-        public int compareTo(GameTreeNode node) {
+        public int compareTo(BoardTreeNode node) {
             if (priority == node.priority) {
                 return Integer.compare(distance, distance);
             } else {
@@ -67,8 +67,8 @@ public class Solver {
             if (node.getClass() != this.getClass()) {
                 return false;
             }
-            GameTreeNode that = (GameTreeNode) node;
-            return getBoard().equals(that.getBoard());
+            BoardTreeNode node1 = (BoardTreeNode) node;
+            return getBoard().equals(node1.getBoard());
         }
 
         @Override
@@ -88,34 +88,15 @@ public class Solver {
             throw new IllegalArgumentException();
         }
         this.board = initial;
-        solve();
-    }
-
-    // is the initial board solvable? (see below)
-    public boolean isSolvable() {
-        return solvable;
-    }
-
-    // min number of moves to solve initial board
-    public int moves() {
-        return moves;
-    }
-
-    // sequence of boards in a shortest solution
-    public Iterable<Board> solution() {
-        return this.solution;
-    }
-
-    private void solve() {
-        MinPQ<GameTreeNode> pq = new MinPQ<>();
-        pq.insert(new GameTreeNode(board, false));
-        pq.insert(new GameTreeNode(board.twin(), true));
-        GameTreeNode node = pq.delMin();
+        MinPQ<BoardTreeNode> pq = new MinPQ<>();
+        pq.insert(new BoardTreeNode(board, false));
+        pq.insert(new BoardTreeNode(board.twin(), true));
+        BoardTreeNode node = pq.delMin();
         Board b = node.getBoard();
         while (!b.isGoal()) {
             for (Board bb : b.neighbors()) {
                 if (node.getParent() == null || !bb.equals(node.getParent().getBoard())) {
-                    pq.insert(new GameTreeNode(bb, node));
+                    pq.insert(new BoardTreeNode(bb, node));
                 }
             }
             node = pq.delMin();
@@ -137,6 +118,22 @@ public class Solver {
             solution = list;
         }
     }
+
+    // is the initial board solvable? (see below)
+    public boolean isSolvable() {
+        return solvable;
+    }
+
+    // min number of moves to solve initial board
+    public int moves() {
+        return moves;
+    }
+
+    // sequence of boards in a shortest solution
+    public Iterable<Board> solution() {
+        return this.solution;
+    }
+
 
     // test client (see below)
     public static void main(String[] args) {

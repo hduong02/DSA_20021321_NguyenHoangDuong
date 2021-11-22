@@ -28,8 +28,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // add the item
     public void enqueue(Item item) {
-        if (item == null)
+        if (item == null) {
             throw new NullPointerException("Item is null");
+        }
         if (size == queue.length) {
             resize(2 * queue.length);
         }
@@ -38,10 +39,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // remove and return a random item
     public Item dequeue() {
-        if (size == 0)
+        if (size == 0) {
             throw new NoSuchElementException("The RandomizeQueue is empty");
+        }
         int random = StdRandom.uniform(0, size);
-
         Item returnItem = queue[random];
         size--;
         queue[random] = queue[size];
@@ -55,13 +56,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // return a random item (but do not remove it)
     public Item sample() {
-        if (size == 0)
+        if (size == 0) {
             throw new NoSuchElementException("The RandomizeQueue is empty");
+        }
         return queue[StdRandom.uniform(0, size)];
     }
 
-    private void resize(int capacity) {
-        Item[] temp = (Item[]) new Object[capacity];
+    private void resize(int newSize) {
+        Item[] temp = (Item[]) new Object[newSize];
         for (int i = 0; i < this.size; i++) {
             temp[i] = queue[i];
         }
@@ -80,17 +82,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         public RandomIterator(Item[] queue, int size) {
             iteratorQueue = (Item[]) new Object[size];
-
             for (int i = 0; i < iteratorQueue.length; i++) {
                 iteratorQueue[i] = queue[i];
             }
 
             for (int j = 1; j < iteratorQueue.length; j++) {
-                int swapIndex = StdRandom.uniform(j + 1);
-
+                int randomIndex = StdRandom.uniform(j + 1);
                 Item temp = iteratorQueue[j];
-                iteratorQueue[j] = iteratorQueue[swapIndex];
-                iteratorQueue[swapIndex] = temp;
+                iteratorQueue[j] = iteratorQueue[randomIndex];
+                iteratorQueue[randomIndex] = temp;
             }
         }
 
@@ -104,7 +104,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             if (!hasNext()) {
                 throw new NoSuchElementException("Queue is empty");
             }
-
             Item item = iteratorQueue[index];
             index++;
             return item;
@@ -131,10 +130,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             System.out.println(iterO.next());
         }
         System.out.println();
+
         while (iter1.hasNext()) {
             System.out.println(iter1.next());
         }
         System.out.println();
     }
-
 }

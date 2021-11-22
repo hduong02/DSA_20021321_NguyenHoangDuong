@@ -5,14 +5,13 @@ import java.util.Arrays;
 
 public class BruteCollinearPoints {
 
-    private ArrayList<LineSegment> lineSegments;
+    private ArrayList<LineSegment> lineSegments = new ArrayList<>();
     private Point[] points;
 
     public BruteCollinearPoints(Point[] points) {
         if (isInvalid(points)) {
             throw new java.lang.IllegalArgumentException();
         }
-        lineSegments = new ArrayList<>();
         double pq;
         double pr;
         double ps;
@@ -36,13 +35,17 @@ public class BruteCollinearPoints {
     }
 
     private boolean isInvalid(Point[] points) {
-        if (points == null) { return true; }
+        if (points == null) {
+            return true;
+        }
         for (int i = 0; i < points.length; i++) {
-            if (points[i] == null) { return true; }
+            if (points[i] == null) {
+                return true;
+            }
         }
         this.points = new Point[points.length];
         System.arraycopy(points, 0, this.points, 0, points.length);
-        Arrays.sort(this.points); // Sorts the specified array of objects into ascending order
+        Arrays.sort(this.points);
         for (int i = 0; i < points.length - 1; i++) {
             if (this.points[i].compareTo(this.points[i + 1]) == 0) { return true; }
         }
